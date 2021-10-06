@@ -36,7 +36,7 @@ $(ORIG_PDF):
 fonts/: ${ORIG_PDF}
 	sh mutool-extract.sh ${ORIG_PDF}
 
-# ORIG.pdf  ---[dump-tjs]--->  font-usage/font-N.{Tjs,toml} (but for now, Tjs-N)
+# ORIG.pdf  ---[dump-tjs]--->  font-usage/font-N.{Tjs,toml}
 font-usage/: ${ORIG_PDF}
 	RUST_BACKTRACE=1 cargo +nightly run --release --bin dump-tjs -- ${ORIG_PDF} font-usage/ --phase phase1
 
@@ -53,6 +53,7 @@ maps/look/: font-usage/ glyphs/ helper_fonts/
 	for f in maps/look/*.html; do open $$f; done
 
 # Manual intervention: use the .html file to edit maps/look/font-N.toml into maps/manual/font-N.toml
+# If you already have maps/valid/, then just run "touch maps/valid/" instead, to skip this step.
 maps/manual/: maps/look/
 	@echo "Manually edit maps/look/font-*.toml into corresponding maps/manual/font-*.toml using the HTML files."; false
 
